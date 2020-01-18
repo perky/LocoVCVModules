@@ -1,0 +1,31 @@
+{
+  "slug": "Loco",
+  "name": "LocoMods",
+  "version": "1.0.0",
+  "license": "Creative Commons - Reuse and modify with attribution",
+  "brand": "Loco",
+  "author": "Luke Perkin",
+  "authorEmail": "luke@locogame.co.uk",
+  "authorUrl": "www.locogame.co.uk",
+  "pluginUrl": "",
+  "manualUrl": "",
+  "sourceUrl": "",
+  "donateUrl": "",
+  "changelogUrl": "",
+  "modules": [
+    {
+      "slug": "Tex",
+      "name": "TEX",
+      "description": "Samples a png texture and converts colour information to CV.",
+      "tags": ["LFO", "Sampler", "Image", "Polyphonic"]
+    },
+    {
+      "slug": "Chaos",
+      "name": "CHAOS",
+      "description": "Double Pendulum LFO",
+      "tags": [
+        "LFO"
+      ]
+    }
+  ]
+}

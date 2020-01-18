@@ -1,0 +1,15 @@
+const float col01_x = 44.9;
+const float col02_x = 112.5;
+const float col03_x = 182.4;
+
+const float row01_y = 72.2;
+const float row02_y = 105.8;
+
+const float kick_x = 36.8;
+const float kick_y = 343.2;
+
+const float out_x = 187.8;
+const float out_y = 345.2;
+
+const float scope_x = 7.5;
+const float scope_y = 122.0;
