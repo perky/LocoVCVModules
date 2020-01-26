@@ -70,7 +70,6 @@ jobs:
       cp dist/*zip products_lin/
     displayName: Build Linux Plugins
     condition: variables.isLinux
-
   - task: PublishPipelineArtifact@0
     inputs:
       artifactName: 'LOCO_ZIP_LINUX'
@@ -127,7 +126,10 @@ jobs:
       action: 'create'
       target: '$(Build.SourceVersion)'
       tagSource: 'gitTag'
+      tagPattern: 'release-v*'
       releaseNotesSource: 'inline'
-      isPreRelease: true
+      isPreRelease: false
       addChangeLog: false
-      assets: $(Build.ArtifactStagingDirectory)/*.zip
+      assets: |
+        $(Build.ArtifactStagingDirectory)/*.zip
+        LocoManual.pdf
