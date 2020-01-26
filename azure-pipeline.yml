@@ -119,14 +119,14 @@ jobs:
      for file in $(Build.ArtifactStagingDirectory)/*.zip; do mv "$file" "${file/.zip/-${EXTEND_TAG}.zip}"; done
      ls -l $(Build.ArtifactStagingDirectory)         
     displayName: Tag asset names with Date
+  
   - task: GitHubRelease@1
     inputs:
       gitHubConnection: 'github.com_perky'
       repositoryName: '$(Build.Repository.Name)'
-      action: 'create'
+      action: 'edit'
       target: '$(Build.SourceVersion)'
-      tagSource: 'gitTag'
-      tagPattern: 'release-v*'
+      tag: 'Nightly'
       releaseNotesSource: 'inline'
       isPreRelease: false
       addChangeLog: false
