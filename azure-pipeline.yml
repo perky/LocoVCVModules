@@ -44,10 +44,6 @@ jobs:
     displayName: Get Rack 
 
   - bash: |
-      ./scripts/resetversion.sh
-    displayName: Update Version in plugins.json
-
-  - bash: |
       export RACK_DIR=$AGENT_TEMPDIRECTORY/Rack-SDK
       export CC=gcc
 
@@ -124,15 +120,14 @@ jobs:
      for file in $(Build.ArtifactStagingDirectory)/*.zip; do mv "$file" "${file/.zip/-${EXTEND_TAG}.zip}"; done
      ls -l $(Build.ArtifactStagingDirectory)         
     displayName: Tag asset names with Date
-
-  - task: GitHubRelease@0
-    displayName: "Update Github Release"
+  - task: GitHubRelease@1
     inputs:
-      gitHubConnection: perky
-      repositoryName: perky/LocoVCVModules
-      action: edit
-      tag: Nightly
+      gitHubConnection: 'github.com_perky'
+      repositoryName: '$(Build.Repository.Name)'
+      action: 'create'
       target: '$(Build.SourceVersion)'
+      tagSource: 'gitTag'
+      releaseNotesSource: 'inline'
+      isPreRelease: true
       addChangeLog: false
       assets: $(Build.ArtifactStagingDirectory)/*.zip
-
