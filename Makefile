@@ -20,3 +20,9 @@ DISTRIBUTABLES += $(wildcard LICENSE*)
 
 # Include the Rack plugin Makefile framework
 include $(RACK_DIR)/plugin.mk
+
+win-dist: all
+	rm -rf dist
+	mkdir -p dist/$(SLUG)
+	@# Strip and copy plugin binary
+	cp $(TARGET) dist/$(SLUG)/
