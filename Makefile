@@ -26,3 +26,9 @@ win-dist: all
 	mkdir -p dist/$(SLUG)
 	@# Strip and copy plugin binary
 	cp $(TARGET) dist/$(SLUG)/
+	$(STRIP) -s dist/$(SLUG)/$(TARGET)
+	@# Copy distributables
+	cp -R $(DISTRIBUTABLES) dist/$(SLUG)/
+	@# Create ZIP package
+	echo "cd dist && 7z.exe a $(SLUG)-$(VERSION)-$(ARCH).zip -r $(SLUG)"
+	cd dist && 7z.exe a $(SLUG)-$(VERSION)-$(ARCH).zip -r $(SLUG)
