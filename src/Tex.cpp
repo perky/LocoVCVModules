@@ -278,7 +278,7 @@ struct TexModuleCrosshair : OpaqueWidget {
 struct TexModuleWidget : ModuleWidget {
 	TexModuleWidget(TexModule* module) {
 		setModule(module);
-		setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/Tex.svg")));
+		setPanel(createPanel(asset::plugin(pluginInstance, "res/Tex.svg")));
 
 		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));
 		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
