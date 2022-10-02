@@ -87,10 +87,15 @@ struct ChaosModule : Module {
 
 	ChaosModule() {
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
-		configParam(GRAVITY_PARAM, 0.01f, 6.f, 1.0f, "timewarp", "x");
-		configParam(LENGTH_RATIO_PARAM, 0.1f, 1.0f - 0.1f, 0.5f, "ratio", "");
-		configParam(DAMPING_PARAM, 0.0f, 1.f, 0.0f, "dampen", "");
+		configParam(GRAVITY_PARAM, 0.01f, 6.f, 1.0f, "Timewarp", "x");
+		configParam(LENGTH_RATIO_PARAM, 0.1f, 1.0f - 0.1f, 0.5f, "Ratio", "");
+		configParam(DAMPING_PARAM, 0.0f, 1.f, 0.0f, "Dampen", "");
 		configParam(KICK_PARAM, 0.f, 1.f, 0.f);
+		configInput(GRAVITY_IN, "Timewarp CV");
+		configInput(RATIO_IN, "Ratio CV");
+		configInput(DAMPING_IN, "Damping CV");
+		configInput(KICK_TRIG_IN, "Kick trigger");
+		configOutput(POLY_CHAOS_OUTPUT, "Poly chaos");
 		integrationMode = IntegrationMode::RK4;
 		kickMode = KickMode::ClearVelocity;
 	}
@@ -287,7 +292,7 @@ struct PendulumWidget : OpaqueWidget {
 struct ChaosWidget : ModuleWidget {
 	ChaosWidget(ChaosModule* module) {
 		setModule(module);
-		setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/Chaos.svg")));
+		setPanel(createPanel(asset::plugin(pluginInstance, "res/Chaos.svg")));
 
 		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));
 		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
