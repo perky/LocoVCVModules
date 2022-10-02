@@ -326,7 +326,7 @@ struct TexModuleWidget : ModuleWidget {
 		TexModule *module;
 		void onAction(const event::Action &e) override {
 			MenuItem::onAction(e);
-			std::string dir = module->lastImagePath.empty() ?  asset::user("") : rack::string::directory(module->lastImagePath);
+			std::string dir = module->lastImagePath.empty() ?  asset::user("") : system::getDirectory(module->lastImagePath);
 			char *path = osdialog_file(OSDIALOG_OPEN, dir.c_str(), NULL, NULL);
 			if (path) {
 				module->loadImage(path);
