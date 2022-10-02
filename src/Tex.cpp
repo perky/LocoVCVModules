@@ -231,9 +231,8 @@ struct TexModuleImageDisplay : OpaqueWidget {
 	bool bLoadedImage = false;
 	
 
-	void draw(const DrawArgs &args) override {
-		OpaqueWidget::draw(args);
-		if (module) {
+	void drawLayer(const DrawArgs& args, int layer) override {
+		if (module || layer == 1) {
 			if (module->bImageLoaded && (imagePath != module->lastImagePath)) {
 				imageHandle = nvgCreateImage(args.vg, module->lastImagePath.c_str(), 0);
 				imagePath = module->lastImagePath;
@@ -249,6 +248,7 @@ struct TexModuleImageDisplay : OpaqueWidget {
 		 	nvgFill(args.vg);
 			nvgClosePath(args.vg);
 		}
+		Widget::drawLayer(args, layer);
 	}
 };
 
