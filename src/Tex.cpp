@@ -55,9 +55,18 @@ struct TexModule : Module {
 
 	TexModule() {
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
-		configParam(X_OFFSET, 0.f, VOLT_MAX, 0.f, "x offset", "volts");
-		configParam(Y_OFFSET, 0.f, VOLT_MAX, 0.f, "y offset", "volts");
-		configParam(AUTO, 0.f, 1.f, 0.f);
+		configParam(X_OFFSET, 0.f, VOLT_MAX, 0.f, "X offset", " volts");
+		configParam(Y_OFFSET, 0.f, VOLT_MAX, 0.f, "Y offset", " volts");
+		configSwitch(AUTO, 0.f, 1.f, 0.f, "Auto");
+		configInput(X_INPUT, "X");
+		configInput(Y_INPUT, "Y");
+		configInput(TRIG_INPUT, "Trigger");
+		configOutput(RED_OUTPUT, "Red");
+		configOutput(GREEN_OUTPUT, "Green");
+		configOutput(BLUE_OUTPUT, "Blue");
+		configOutput(HUE_OUTPUT, "Hue");
+		configOutput(SATURATION_OUTPUT, "Saturation");
+		configOutput(LEVEL_OUTPUT, "Level");
 	}
 
 	json_t *dataToJson() override {
