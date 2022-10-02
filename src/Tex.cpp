@@ -97,7 +97,6 @@ struct TexModule : Module {
 		uint uncroppedImageHeight;
 		uint error = lodepng::decode(uncroppedImage, uncroppedImageWidth, uncroppedImageHeight, path, LCT_RGB);
 		if (error != 0) {
-			std::cout << "error " << error << ": " << lodepng_error_text(error) << std::endl;
 			lastImagePath = "";
 			bImageLoaded = false;
 		} else {
