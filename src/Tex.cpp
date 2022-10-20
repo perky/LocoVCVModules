@@ -256,7 +256,7 @@ struct TexModuleCrosshair : OpaqueWidget {
 	TexModule* module;
 
 	void drawLayer(const DrawArgs& args, int layer) override {
-		if (module && layer == 1) {
+		if (layer == 1) {
 			const float size = IMG_WIDTH;
 			nvgBeginPath(args.vg);
 			nvgStrokeWidth(args.vg, 1);
