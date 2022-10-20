@@ -259,7 +259,7 @@ struct PendulumWidget : OpaqueWidget {
 	ChaosModule* module;
 
 	void drawLayer(const DrawArgs& args, int layer) override {
-		if (module || layer == 1) {
+		if (module && layer == 1) {
 			const float maxLen = 80.0f;
 			const float center = 105.f;
 			float p0_x = (module->p0.x * maxLen) + center;
