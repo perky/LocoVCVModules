@@ -55,9 +55,18 @@ struct TexModule : Module {
 
 	TexModule() {
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
-		configParam(X_OFFSET, 0.f, VOLT_MAX, 0.f, "x offset", "volts");
-		configParam(Y_OFFSET, 0.f, VOLT_MAX, 0.f, "y offset", "volts");
-		configParam(AUTO, 0.f, 1.f, 0.f);
+		configParam(X_OFFSET, 0.f, VOLT_MAX, 0.f, "X offset", " volts");
+		configParam(Y_OFFSET, 0.f, VOLT_MAX, 0.f, "Y offset", " volts");
+		configSwitch(AUTO, 0.f, 1.f, 0.f, "Auto");
+		configInput(X_INPUT, "X");
+		configInput(Y_INPUT, "Y");
+		configInput(TRIG_INPUT, "Trigger");
+		configOutput(RED_OUTPUT, "Red");
+		configOutput(GREEN_OUTPUT, "Green");
+		configOutput(BLUE_OUTPUT, "Blue");
+		configOutput(HUE_OUTPUT, "Hue");
+		configOutput(SATURATION_OUTPUT, "Saturation");
+		configOutput(LEVEL_OUTPUT, "Level");
 	}
 
 	json_t *dataToJson() override {
@@ -88,7 +97,6 @@ struct TexModule : Module {
 		uint uncroppedImageHeight;
 		uint error = lodepng::decode(uncroppedImage, uncroppedImageWidth, uncroppedImageHeight, path, LCT_RGB);
 		if (error != 0) {
-			std::cout << "error " << error << ": " << lodepng_error_text(error) << std::endl;
 			lastImagePath = "";
 			bImageLoaded = false;
 		} else {
@@ -223,9 +231,8 @@ struct TexModuleImageDisplay : OpaqueWidget {
 	bool bLoadedImage = false;
 	
 
-	void draw(const DrawArgs &args) override {
-		OpaqueWidget::draw(args);
-		if (module) {
+	void drawLayer(const DrawArgs& args, int layer) override {
+		if (module && layer == 1) {
 			if (module->bImageLoaded && (imagePath != module->lastImagePath)) {
 				imageHandle = nvgCreateImage(args.vg, module->lastImagePath.c_str(), 0);
 				imagePath = module->lastImagePath;
@@ -241,15 +248,15 @@ struct TexModuleImageDisplay : OpaqueWidget {
 		 	nvgFill(args.vg);
 			nvgClosePath(args.vg);
 		}
+		Widget::drawLayer(args, layer);
 	}
 };
 
 struct TexModuleCrosshair : OpaqueWidget {
 	TexModule* module;
 
-	void draw(const DrawArgs &args) override {
-		OpaqueWidget::draw(args);
-		if (module) {
+	void drawLayer(const DrawArgs& args, int layer) override {
+		if (layer == 1) {
 			const float size = IMG_WIDTH;
 			nvgBeginPath(args.vg);
 			nvgStrokeWidth(args.vg, 1);
@@ -263,13 +270,14 @@ struct TexModuleCrosshair : OpaqueWidget {
 			nvgClosePath(args.vg);
 			nvgStroke(args.vg);
 		}
+		Widget::drawLayer(args, layer);
 	}
 };
 
 struct TexModuleWidget : ModuleWidget {
 	TexModuleWidget(TexModule* module) {
 		setModule(module);
-		setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/Tex.svg")));
+		setPanel(createPanel(asset::plugin(pluginInstance, "res/Tex.svg")));
 
 		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));
 		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
@@ -326,7 +334,7 @@ struct TexModuleWidget : ModuleWidget {
 		TexModule *module;
 		void onAction(const event::Action &e) override {
 			MenuItem::onAction(e);
-			std::string dir = module->lastImagePath.empty() ?  asset::user("") : rack::string::directory(module->lastImagePath);
+			std::string dir = module->lastImagePath.empty() ?  asset::user("") : system::getDirectory(module->lastImagePath);
 			char *path = osdialog_file(OSDIALOG_OPEN, dir.c_str(), NULL, NULL);
 			if (path) {
 				module->loadImage(path);
