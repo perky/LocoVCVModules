@@ -232,7 +232,7 @@ struct TexModuleImageDisplay : OpaqueWidget {
 	
 
 	void drawLayer(const DrawArgs& args, int layer) override {
-		if (module || layer == 1) {
+		if (module && layer == 1) {
 			if (module->bImageLoaded && (imagePath != module->lastImagePath)) {
 				imageHandle = nvgCreateImage(args.vg, module->lastImagePath.c_str(), 0);
 				imagePath = module->lastImagePath;
@@ -256,7 +256,7 @@ struct TexModuleCrosshair : OpaqueWidget {
 	TexModule* module;
 
 	void drawLayer(const DrawArgs& args, int layer) override {
-		if (module || layer == 1) {
+		if (module && layer == 1) {
 			const float size = IMG_WIDTH;
 			nvgBeginPath(args.vg);
 			nvgStrokeWidth(args.vg, 1);
